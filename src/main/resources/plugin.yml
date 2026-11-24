@@ -1,0 +1,15 @@
+name: ExcellentEnchantsNK
+main: com.brunojaegerk.excellentenchants.ExcellentEnchantsNK
+version: "1.0.0"
+api: ["1.0.0"]
+author: BrunoJaegerK
+description: Ocho encantamientos personalizados para NukkitPetteriM1Edition
+commands:
+  eenchant:
+    description: Administra los encantamientos personalizados
+    usage: "/eenchant"
+    permission: excellentenchants.admin
+permissions:
+  excellentenchants.admin:
+    description: Permite crear libros y aplicar encantamientos personalizados
+    default: op
