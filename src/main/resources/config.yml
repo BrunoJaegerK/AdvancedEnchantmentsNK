@@ -1,0 +1,48 @@
+# Nivel máximo permitido para cada encantamiento.
+max-levels:
+  elemental_protection: 3
+  flame_walker: 3
+  speed: 3
+  confusing_arrows: 3
+  tunnel: 3
+  blindness: 3
+  double_strike: 3
+  vampire: 3
+
+# Protección Elemental: reducción por nivel. La reducción total nunca supera el 75%.
+elemental-protection:
+  reduction-per-level: 0.15
+
+# Caminador de Llamas: duración temporal de los bloques de magma creados bajo los pies.
+flame-walker:
+  duration-ticks: 50
+
+# Flechas Confusas: duración de Náusea aplicada al objetivo.
+confusing-arrows:
+  duration-ticks: 100
+
+# Ceguera: duración del efecto aplicado al objetivo.
+blindness:
+  duration-ticks: 60
+
+# Doble Strike: multiplicador de daño. El nivel I ya duplica el daño.
+double-strike:
+  damage-multiplier: 2.0
+
+# Vampiro: fracción del daño del golpe que se devuelve como salud.
+vampire:
+  heal-fraction: 0.25
+
+messages:
+  prefix: "§8[§dExcellentEnchants§8] "
+  no-permission: "{prefix}§cNo tienes permiso para usar este comando."
+  player-only: "{prefix}§cEste subcomando solo puede utilizarse dentro del juego."
+  player-not-found: "{prefix}§cNo se encontró al jugador."
+  invalid-level: "{prefix}§cEl nivel debe ser un número entero."
+  level-range: "{prefix}§cEl nivel debe estar entre 1 y {max}."
+  invalid-item: "{prefix}§cEste encantamiento no se puede aplicar a ese objeto."
+  enchant-added: "{prefix}§aSe aplicó {enchant} {level} al objeto."
+  book-received: "{prefix}§aHas recibido un libro de {enchant} {level}."
+  book-given: "{prefix}§aLibro entregado a {player}."
+  invalid-anvil-target: "{prefix}§cEse libro no es compatible con el objeto."
+  anvil-success: "{prefix}§aSe aplicó {enchant} mediante el yunque."
