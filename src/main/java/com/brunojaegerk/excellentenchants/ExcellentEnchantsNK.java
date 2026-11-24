@@ -43,6 +43,15 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
         // Carga la configuración y registra los eventos que controlan los encantamientos.
         saveDefaultConfig();
         getServer().getPluginManager().registerEvents(this, this);
+        // Renueva Velocidad incluso cuando el jugador permanece quieto y conserva el efecto mientras use las botas.
+        getServer().getScheduler().scheduleRepeatingTask(this, () -> {
+            for (Player player : getServer().getOnlinePlayers().values()) {
+                int level = getLevel(player.getInventory().getBoots(), EnchantType.SPEED);
+                if (level > 0) {
+                    player.addEffect(Effect.getEffect(Effect.SPEED).setDuration(45).setAmplifier(level - 1).setVisible(false));
+                }
+            }
+        }, 20);
         getLogger().info("ExcellentEnchantsNK habilitado. Se cargaron 8 encantamientos.");
     }
 
@@ -297,20 +306,27 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
         int level = getLevel(player.getInventory().getItemInHand(), EnchantType.TUNNEL);
         if (level <= 0) return;
 
-        int width = level == 1 ? 1 : level;
-        int depth = level == 1 ? 2 : level;
-        int startX = level == 1 ? 0 : -(width / 2);
-        int startZ = level == 1 ? -1 : -(depth / 2);
+        int width = level;
+        int height = level == 1 ? 2 : level;
+        int startSide = -(width / 2);
+        int startY = level == 1 ? 0 : -(height / 2);
         Block center = event.getBlock();
         Item tool = player.getInventory().getItemInHand();
+        Vector3 look = player.getDirectionVector();
+        boolean facingX = Math.abs(look.x) > Math.abs(look.z);
+        int sideX = facingX ? 0 : 1;
+        int sideZ = facingX ? 1 : 0;
         tunnelMiningPlayers.add(playerKey);
         try {
-            for (int dx = startX; dx < startX + width; dx++) {
-                for (int dz = startZ; dz < startZ + depth; dz++) {
-                    if (dx == 0 && dz == 0) continue;
-                    Block extra = player.getLevel().getBlock(center.getFloorX() + dx, center.getFloorY(), center.getFloorZ() + dz);
+            for (int side = startSide; side < startSide + width; side++) {
+                for (int dy = startY; dy < startY + height; dy++) {
+                    if (side == 0 && dy == 0) continue;
+                    int x = center.getFloorX() + side * sideX;
+                    int y = center.getFloorY() + dy;
+                    int z = center.getFloorZ() + side * sideZ;
+                    Block extra = player.getLevel().getBlock(x, y, z);
                     if (extra.getId() == Block.AIR || extra.getId() == Block.BEDROCK) continue;
-                    player.getLevel().useBreakOn(new Vector3(extra.getFloorX(), extra.getFloorY(), extra.getFloorZ()), tool, player);
+                    player.getLevel().useBreakOn(new Vector3(x, y, z), tool, player);
                 }
             }
         } finally {
