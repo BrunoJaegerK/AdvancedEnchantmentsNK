@@ -1,0 +1,36 @@
+name: Maven Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener el código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Compilar con Maven
+        run: mvn --batch-mode --no-transfer-progress clean package
+
+      - name: Publicar JAR compilado
+        uses: actions/upload-artifact@v4
+        with:
+          name: ExcellentEnchantsNK
+          path: target/ExcellentEnchantsNK-*.jar
+          if-no-files-found: error
+          retention-days: 14
