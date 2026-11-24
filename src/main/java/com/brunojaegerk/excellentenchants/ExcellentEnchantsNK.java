@@ -233,7 +233,7 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
                             level.setBlock(position, Block.get(oldId, oldDamage), true);
                         }
                         activeLavaBlocks.remove(key);
-                    }, getConfig().getInt("flame-walker.duration-ticks", 50));
+                    }, getConfig().getInt("flame-walker.duration-ticks", 50) + (flameLevel - 1) * 10);
                 }
             }
         }
@@ -274,13 +274,13 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
 
         int doubleStrike = getLevel(weapon, EnchantType.DOUBLE_STRIKE);
         if (doubleStrike > 0) {
-            double multiplier = getConfig().getDouble("double-strike.damage-multiplier", 2.0);
+            double multiplier = getConfig().getDouble("double-strike.damage-multiplier", 2.0) + (doubleStrike - 1) * 0.25;
             event.setDamage((float) (event.getDamage() * multiplier));
         }
 
         int vampire = getLevel(weapon, EnchantType.VAMPIRE);
         if (vampire > 0) {
-            float heal = (float) (event.getDamage() * getConfig().getDouble("vampire.heal-fraction", 0.25));
+            float heal = (float) (event.getDamage() * Math.min(1.0, getConfig().getDouble("vampire.heal-fraction", 0.25) + (vampire - 1) * 0.05));
             if (heal > 0 && attacker.isAlive()) {
                 attacker.heal(heal);
             }
