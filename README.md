@@ -158,12 +158,6 @@ El archivo JAR se genera en `target/ExcellentEnchantsNK-1.0.0.jar`.
 
 GitHub Actions ejecuta la compilación automáticamente al actualizar la rama principal. El JAR queda disponible como artefacto de la ejecución.
 
-## Compatibilidad
-
-Desarrollado para NukkitPetteriM1Edition. No está diseñado para Paper, Spigot, Folia ni otras implementaciones de Bukkit.
-
-Las mecánicas que dependen de eventos de Nukkit utilizan los eventos de daño, movimiento, disparo de proyectiles, rotura de bloques y reparación de objetos de PM1E.
-
 ## ℹ️ About
 
 ExcellentEnchantsNK añade encantamientos personalizados a NukkitPetteriM1Edition mediante NBT, comandos administrativos y yunques.
