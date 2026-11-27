@@ -314,7 +314,7 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
         int z = spawnerBlock.getFloorZ();
         Vector3 position = new Vector3(x, y, z);
 
-        BlockEntity tile = spawnerBlock.getChunk().getTile(x, y, z);
+        BlockEntity tile = player.getLevel().getBlockEntity(position);
         if (!(tile instanceof BlockEntitySpawner)) return;
 
         BlockEntitySpawner spawner = (BlockEntitySpawner) tile;
@@ -357,7 +357,7 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
             savedSpawner.putInt("y", y);
             savedSpawner.putInt("z", z);
 
-            BlockEntity current = block.getChunk().getTile(x, y, z);
+            BlockEntity current = block.getLevel().getBlockEntity(new Vector3(x, y, z));
             if (current != null) current.close();
 
             // BlockEntitySpawner utiliza EntityId para cualquier tipo de entidad que PM1E tenga registrado.
