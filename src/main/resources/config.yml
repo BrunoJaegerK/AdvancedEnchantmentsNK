@@ -7,7 +7,7 @@ max-levels:
   tunnel: 3
   blindness: 3
   double_strike: 3
-  vampire: 3
+  vampire: 3\n  silk_spawner: 1
 
 # Protección Elemental: reducción por nivel. La reducción total nunca supera el 75%.
 elemental-protection:
