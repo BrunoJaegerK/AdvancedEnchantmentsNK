@@ -11,7 +11,7 @@
 
 ---
 
-ExcellentEnchantsNK añade ocho encantamientos personalizados al servidor. Está pensado para ampliar el equipamiento de supervivencia sin modificar los encantamientos vanilla ni introducir sistemas de obtención aleatoria.
+ExcellentEnchantsNK añade nueve encantamientos personalizados al servidor. Está pensado para ampliar el equipamiento de supervivencia sin modificar los encantamientos vanilla ni introducir sistemas de obtención aleatoria.
 
 - **Autor:** BrunoJaegerK
 - **Servidor:** NukkitPetteriM1Edition
@@ -19,7 +19,7 @@ ExcellentEnchantsNK añade ocho encantamientos personalizados al servidor. Está
 
 ## Características
 
-- Ocho encantamientos iniciales con efectos funcionales.
+- Nueve encantamientos personalizados con efectos funcionales.
 - Los encantamientos se guardan en NBT dentro de cada objeto.
 - Los libros personalizados también utilizan NBT y conservan su información al moverse entre inventarios, reiniciar el servidor o pasar por un yunque.
 - Los libros solo se pueden crear mediante comandos administrativos.
