@@ -41,7 +41,7 @@ ExcellentEnchantsNK añade nueve encantamientos personalizados al servidor. Est�
 | Ceguera | Espadas y hachas | Aplica Ceguera al objetivo golpeado. Los niveles superiores aumentan la duración. |
 | Doble Strike | Espadas y hachas | Multiplica el daño del golpe según el valor configurado. |
 | Vampiro | Espadas y hachas | Recupera una parte del daño causado al objetivo. |
-| Toque de Seda | Picos | Permite extraer un spawner al romperlo; se entrega como un spawner genérico. |
+| Toque de Seda | Picos | Permite extraer cualquier spawner de criatura compatible con PM1E, conservando el tipo de entidad y los parámetros de aparición al volver a colocarlo. |
 
 Los encantamientos solo se aplican a los tipos de objetos indicados. No se pueden colocar, por ejemplo, Velocidad en un casco o Túnel en una espada.
 
@@ -130,7 +130,7 @@ El archivo se encuentra en `plugins/ExcellentEnchantsNK/config.yml`.
 
 ### Toque de Seda
 
-`spawner_touch` se aplica a picos y permite romper spawners para obtener un bloque de spawner. Su nivel máximo predeterminado es I. El bloque recuperado es genérico: no conserva el tipo de criatura configurado en el spawner original.
+`spawner_touch` se aplica a picos y permite recuperar spawners de cualquier tipo de criatura que PM1E tenga registrado. El objeto conserva el NBT del `BlockEntitySpawner`, incluido `EntityId`, los tiempos de aparición, el rango, el máximo de entidades cercanas y la cantidad de criaturas. Al colocarlo, se reconstruye la entidad de bloque con esos datos. Su nivel máximo predeterminado es I. Los tipos de entidad personalizados solo funcionarán si están registrados y son compatibles con el sistema de entidades de PM1E.
 
 ### Mensajes
 
