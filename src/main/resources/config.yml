@@ -8,6 +8,7 @@ max-levels:
   blindness: 3
   double_strike: 3
   vampire: 3
+  spawner_touch: 1
 
 # Protección Elemental: reducción por nivel. La reducción total nunca supera el 75%.
 elemental-protection:

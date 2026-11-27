@@ -11,7 +11,7 @@
 
 ---
 
-ExcellentEnchantsNK añade ocho encantamientos personalizados al servidor. Está pensado para ampliar el equipamiento de supervivencia sin modificar los encantamientos vanilla ni introducir sistemas de obtención aleatoria.
+ExcellentEnchantsNK añade nueve encantamientos personalizados al servidor. Está pensado para ampliar el equipamiento de supervivencia sin modificar los encantamientos vanilla ni introducir sistemas de obtención aleatoria.
 
 - **Autor:** BrunoJaegerK
 - **Servidor:** NukkitPetteriM1Edition
@@ -19,7 +19,7 @@ ExcellentEnchantsNK añade ocho encantamientos personalizados al servidor. Está
 
 ## Características
 
-- Ocho encantamientos iniciales con efectos funcionales.
+- Nueve encantamientos personalizados con efectos funcionales.
 - Los encantamientos se guardan en NBT dentro de cada objeto.
 - Los libros personalizados también utilizan NBT y conservan su información al moverse entre inventarios, reiniciar el servidor o pasar por un yunque.
 - Los libros solo se pueden crear mediante comandos administrativos.
@@ -41,6 +41,7 @@ ExcellentEnchantsNK añade ocho encantamientos personalizados al servidor. Está
 | Ceguera | Espadas y hachas | Aplica Ceguera al objetivo golpeado. Los niveles superiores aumentan la duración. |
 | Doble Strike | Espadas y hachas | Multiplica el daño del golpe según el valor configurado. |
 | Vampiro | Espadas y hachas | Recupera una parte del daño causado al objetivo. |
+| Toque de Seda | Picos | Permite extraer cualquier spawner de criatura compatible con PM1E, conservando el tipo de entidad y los parámetros de aparición al volver a colocarlo. |
 
 Los encantamientos solo se aplican a los tipos de objetos indicados. No se pueden colocar, por ejemplo, Velocidad en un casco o Túnel en una espada.
 
@@ -65,6 +66,7 @@ Nombres disponibles:
 - `blindness`
 - `double_strike`
 - `vampire`
+- `spawner_touch` (alias: `toque_de_seda`)
 
 También se aceptan los nombres en español indicados en la configuración y sus alias.
 
@@ -73,6 +75,7 @@ Ejemplos:
 ```text
 /eenchant add speed 2
 /eenchant add tunnel 3
+/eenchant add spawner_touch 1
 /eenchant book Bruno vampire 1
 /eenchant give Bruno confusing_arrows 2
 ```
@@ -124,6 +127,10 @@ El archivo se encuentra en `plugins/ExcellentEnchantsNK/config.yml`.
 ### Vampiro
 
 `vampire.heal-fraction` determina qué fracción del daño causado se recupera como salud. El valor predeterminado es 0.25 (25%).
+
+### Toque de Seda
+
+`spawner_touch` se aplica a picos y permite recuperar spawners de cualquier tipo de criatura que PM1E tenga registrado. El objeto conserva el NBT del `BlockEntitySpawner`, incluido `EntityId`, los tiempos de aparición, el rango, el máximo de entidades cercanas y la cantidad de criaturas. Al colocarlo, se reconstruye la entidad de bloque con esos datos. Su nivel máximo predeterminado es I. Los tipos de entidad personalizados solo funcionarán si están registrados y son compatibles con el sistema de entidades de PM1E.
 
 ### Mensajes
 
