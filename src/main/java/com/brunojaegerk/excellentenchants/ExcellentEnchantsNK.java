@@ -297,8 +297,27 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
     }
 
     @EventHandler
+    public void onSpawnerTouch(BlockBreakEvent event) {
+        // Toque de Seda permite recuperar el bloque de spawner; sin el encantamiento conserva el comportamiento normal.
+        if (event.isCancelled() || event.getBlock().getId() != 52) return;
+
+        Player player = event.getPlayer();
+        Item tool = player.getInventory().getItemInHand();
+        if (getLevel(tool, EnchantType.SPAWNER_TOUCH) <= 0) return;
+
+        Block spawnerBlock = event.getBlock();
+        Vector3 position = new Vector3(spawnerBlock.getFloorX(), spawnerBlock.getFloorY(), spawnerBlock.getFloorZ());
+
+        // Se cancela la rotura vanilla para evitar drops duplicados y se entrega un spawner como objeto.
+        event.setCancelled(true);
+        player.getLevel().setBlock(position, Block.get(Block.AIR), true);
+        player.getLevel().dropItem(position.add(0.5, 0.5, 0.5), Item.get(52, 0, 1));
+    }
+
+    @EventHandler
     public void onTunnelBreak(BlockBreakEvent event) {
         // El minado adicional usa useBreakOn para que PM1E vuelva a disparar BlockBreakEvent y respete protecciones externas.
+        if (event.getBlock().getId() == 52) return;
         Player player = event.getPlayer();
         String playerKey = player.getName().toLowerCase(Locale.ROOT);
         if (tunnelMiningPlayers.contains(playerKey)) return;
@@ -419,6 +438,7 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
             case CONFUSING_ARROWS:
                 return id == Item.BOW || id == Item.CROSSBOW;
             case TUNNEL:
+            case SPAWNER_TOUCH:
                 return id == Item.WOODEN_PICKAXE || id == Item.STONE_PICKAXE || id == Item.IRON_PICKAXE
                         || id == Item.GOLD_PICKAXE || id == Item.DIAMOND_PICKAXE || id == Item.NETHERITE_PICKAXE;
             case BLINDNESS:
@@ -458,7 +478,8 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
         TUNNEL("tunnel", "Túnel", "tunel"),
         BLINDNESS("blindness", "Ceguera", "ceguera"),
         DOUBLE_STRIKE("double_strike", "Doble Strike", "doble_strike"),
-        VAMPIRE("vampire", "Vampiro", "vampiro");
+        VAMPIRE("vampire", "Vampiro", "vampiro"),
+        SPAWNER_TOUCH("spawner_touch", "Toque de Seda", "toque_de_seda");
 
         private final String key;
         private final String display;
