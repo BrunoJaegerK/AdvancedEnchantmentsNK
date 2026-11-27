@@ -52,7 +52,7 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
                 }
             }
         }, 20);
-        getLogger().info("ExcellentEnchantsNK habilitado. Se cargaron 8 encantamientos.");
+        getLogger().info("ExcellentEnchantsNK habilitado. Se cargaron 9 encantamientos.");
     }
 
     @Override
@@ -297,6 +297,20 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
     }
 
     @EventHandler
+    public void onSpawnerSilkTouch(BlockBreakEvent event) {
+        // Toque de Seda de Spawners reemplaza el drop normal del generador por un bloque de spawner.
+        Block block = event.getBlock();
+        if (block.getId() != Block.MONSTER_SPAWNER) return;
+
+        Item tool = event.getItem();
+        if (tool == null || tool.isNull()) tool = event.getPlayer().getInventory().getItemInHand();
+        if (getLevel(tool, EnchantType.SILK_SPAWNER) <= 0) return;
+
+        event.setDrops(new Item[]{Item.get(Block.MONSTER_SPAWNER, 0, 1)});
+        event.setDropExp(0);
+    }
+
+    @EventHandler
     public void onTunnelBreak(BlockBreakEvent event) {
         // El minado adicional usa useBreakOn para que PM1E vuelva a disparar BlockBreakEvent y respete protecciones externas.
         Player player = event.getPlayer();
@@ -458,7 +472,7 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
         TUNNEL("tunnel", "Túnel", "tunel"),
         BLINDNESS("blindness", "Ceguera", "ceguera"),
         DOUBLE_STRIKE("double_strike", "Doble Strike", "doble_strike"),
-        VAMPIRE("vampire", "Vampiro", "vampiro");
+        VAMPIRE("vampire", "Vampiro", "vampiro"),\n        SILK_SPAWNER("silk_spawner", "Toque de Seda de Spawners", "toque_de_seda");
 
         private final String key;
         private final String display;
