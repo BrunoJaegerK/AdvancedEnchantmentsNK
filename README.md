@@ -66,7 +66,7 @@ Nombres disponibles:
 - `blindness`
 - `double_strike`
 - `vampire`
-- `spawner_touch` (alias: `toque_de_seda`)
+- `spawner_touch` (alias: `toque_de_seda`; compatibilidad: `silk_spawner`)
 
 También se aceptan los nombres en español indicados en la configuración y sus alias.
 

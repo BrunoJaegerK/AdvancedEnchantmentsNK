@@ -547,6 +547,9 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
             for (EnchantType type : values()) {
                 if (type.key.equals(normalized) || type.alias.equals(normalized)
                         || type.display.toLowerCase(Locale.ROOT).replace(' ', '_').equals(normalized)) return type;
+                // Compatibilidad con el nombre usado por la rama secundaria silk-touch-spawners.
+                // Reutiliza SPAWNER_TOUCH, que conserva el NBT completo del generador original.
+                if (type == SPAWNER_TOUCH && normalized.equals("silk_spawner")) return type;
             }
             return null;
         }
