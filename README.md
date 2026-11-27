@@ -11,7 +11,7 @@
 
 ---
 
-ExcellentEnchantsNK añade ocho encantamientos personalizados al servidor. Está pensado para ampliar el equipamiento de supervivencia sin modificar los encantamientos vanilla ni introducir sistemas de obtención aleatoria.
+ExcellentEnchantsNK añade nueve encantamientos personalizados al servidor. Está pensado para ampliar el equipamiento de supervivencia sin modificar los encantamientos vanilla ni introducir sistemas de obtención aleatoria.
 
 - **Autor:** BrunoJaegerK
 - **Servidor:** NukkitPetteriM1Edition
@@ -19,7 +19,7 @@ ExcellentEnchantsNK añade ocho encantamientos personalizados al servidor. Está
 
 ## Características
 
-- Ocho encantamientos iniciales con efectos funcionales.
+- Nueve encantamientos personalizados con efectos funcionales.
 - Los encantamientos se guardan en NBT dentro de cada objeto.
 - Los libros personalizados también utilizan NBT y conservan su información al moverse entre inventarios, reiniciar el servidor o pasar por un yunque.
 - Los libros solo se pueden crear mediante comandos administrativos.
@@ -40,7 +40,7 @@ ExcellentEnchantsNK añade ocho encantamientos personalizados al servidor. Está
 | Túnel | Picos | Mina una zona adicional alrededor del bloque roto: nivel I (1×2), nivel II (2×2) y nivel III (3×3). |
 | Ceguera | Espadas y hachas | Aplica Ceguera al objetivo golpeado. Los niveles superiores aumentan la duración. |
 | Doble Strike | Espadas y hachas | Multiplica el daño del golpe según el valor configurado. |
-| Vampiro | Espadas y hachas | Recupera una parte del daño causado al objetivo. |
+| Vampiro | Espadas y hachas | Recupera una parte del daño causado al objetivo. |\n| Toque de Seda de Spawners | Picos | Permite obtener un bloque de generador de criaturas al romperlo. El objeto no garantiza conservar el tipo de criatura del generador original. |
 
 Los encantamientos solo se aplican a los tipos de objetos indicados. No se pueden colocar, por ejemplo, Velocidad en un casco o Túnel en una espada.
 
@@ -64,7 +64,7 @@ Nombres disponibles:
 - `tunnel`
 - `blindness`
 - `double_strike`
-- `vampire`
+- `vampire`\n- `silk_spawner` (alias: `toque_de_seda`)
 
 También se aceptan los nombres en español indicados en la configuración y sus alias.
 
@@ -72,7 +72,7 @@ Ejemplos:
 
 ```text
 /eenchant add speed 2
-/eenchant add tunnel 3
+/eenchant add tunnel 3\n/eenchant add silk_spawner 1
 /eenchant book Bruno vampire 1
 /eenchant give Bruno confusing_arrows 2
 ```
