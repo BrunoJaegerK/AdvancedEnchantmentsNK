@@ -2,6 +2,8 @@ package com.brunojaegerk.excellentenchants;
 
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
+import cn.nukkit.blockentity.BlockEntity;
+import cn.nukkit.blockentity.BlockEntitySpawner;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.entity.Entity;
@@ -9,6 +11,7 @@ import cn.nukkit.entity.projectile.EntityProjectile;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockBreakEvent;
+import cn.nukkit.event.block.BlockPlaceEvent;
 import cn.nukkit.event.entity.EntityDamageByEntityEvent;
 import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.event.entity.EntityShootBowEvent;
@@ -52,7 +55,7 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
                 }
             }
         }, 20);
-        getLogger().info("ExcellentEnchantsNK habilitado. Se cargaron 8 encantamientos.");
+        getLogger().info("ExcellentEnchantsNK habilitado. Se cargaron 9 encantamientos.");
     }
 
     @Override
@@ -298,20 +301,68 @@ public class ExcellentEnchantsNK extends PluginBase implements Listener {
 
     @EventHandler
     public void onSpawnerTouch(BlockBreakEvent event) {
-        // Toque de Seda permite recuperar el bloque de spawner; sin el encantamiento conserva el comportamiento normal.
-        if (event.isCancelled() || event.getBlock().getId() != 52) return;
+        // Toque de Seda recupera el NBT completo del spawner, incluido EntityId y sus parámetros de aparición.
+        if (event.isCancelled() || event.getBlock().getId() != Block.MONSTER_SPAWNER) return;
 
         Player player = event.getPlayer();
         Item tool = player.getInventory().getItemInHand();
         if (getLevel(tool, EnchantType.SPAWNER_TOUCH) <= 0) return;
 
         Block spawnerBlock = event.getBlock();
-        Vector3 position = new Vector3(spawnerBlock.getFloorX(), spawnerBlock.getFloorY(), spawnerBlock.getFloorZ());
+        int x = spawnerBlock.getFloorX();
+        int y = spawnerBlock.getFloorY();
+        int z = spawnerBlock.getFloorZ();
+        Vector3 position = new Vector3(x, y, z);
 
-        // Se cancela la rotura vanilla para evitar drops duplicados y se entrega un spawner como objeto.
+        BlockEntity tile = spawnerBlock.getChunk().getTile(x, y, z);
+        if (!(tile instanceof BlockEntitySpawner)) return;
+
+        BlockEntitySpawner spawner = (BlockEntitySpawner) tile;
+        spawner.saveNBT();
+        CompoundTag savedSpawner = spawner.namedTag.clone();
+
+        Item spawnerItem = Item.get(Block.MONSTER_SPAWNER, 0, 1);
+        CompoundTag itemTag = spawnerItem.getNamedTag();
+        if (itemTag == null) itemTag = new CompoundTag();
+        itemTag.putCompound("ExcellentEnchantsNKSpawner", savedSpawner);
+        spawnerItem.setNamedTag(itemTag);
+
+        // Se cancela la rotura vanilla para evitar drops duplicados y se conserva el tipo de mob en el objeto.
         event.setCancelled(true);
         player.getLevel().setBlock(position, Block.get(Block.AIR), true);
-        player.getLevel().dropItem(position.add(0.5, 0.5, 0.5), Item.get(52, 0, 1));
+        player.getLevel().dropItem(position.add(0.5, 0.5, 0.5), spawnerItem);
+    }
+
+    @EventHandler
+    public void onSpawnerPlace(BlockPlaceEvent event) {
+        // El spawner colocado se restaura después de que PM1E cree su BlockEntity predeterminado.
+        if (event.isCancelled() || event.getBlock().getId() != Block.MONSTER_SPAWNER) return;
+
+        Item placedItem = event.getItem();
+        CompoundTag itemTag = placedItem == null ? null : placedItem.getNamedTag();
+        if (itemTag == null || !itemTag.contains("ExcellentEnchantsNKSpawner")) return;
+
+        CompoundTag savedSpawner = itemTag.getCompound("ExcellentEnchantsNKSpawner").clone();
+        Block block = event.getBlock();
+        int x = block.getFloorX();
+        int y = block.getFloorY();
+        int z = block.getFloorZ();
+
+        getServer().getScheduler().scheduleDelayedTask(this, () -> {
+            // No se restaura si el bloque fue retirado o sustituido antes de ejecutar la tarea.
+            if (block.getLevel().getBlockIdAt(x, y, z) != Block.MONSTER_SPAWNER) return;
+
+            savedSpawner.putString("id", BlockEntity.MOB_SPAWNER);
+            savedSpawner.putInt("x", x);
+            savedSpawner.putInt("y", y);
+            savedSpawner.putInt("z", z);
+
+            BlockEntity current = block.getChunk().getTile(x, y, z);
+            if (current != null) current.close();
+
+            // BlockEntitySpawner utiliza EntityId para cualquier tipo de entidad que PM1E tenga registrado.
+            BlockEntity.createBlockEntity(BlockEntity.MOB_SPAWNER, block.getChunk(), savedSpawner);
+        }, 1);
     }
 
     @EventHandler
