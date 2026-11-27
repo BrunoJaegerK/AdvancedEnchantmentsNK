@@ -41,6 +41,7 @@ ExcellentEnchantsNK añade ocho encantamientos personalizados al servidor. Está
 | Ceguera | Espadas y hachas | Aplica Ceguera al objetivo golpeado. Los niveles superiores aumentan la duración. |
 | Doble Strike | Espadas y hachas | Multiplica el daño del golpe según el valor configurado. |
 | Vampiro | Espadas y hachas | Recupera una parte del daño causado al objetivo. |
+| Toque de Seda | Picos | Permite extraer un spawner al romperlo; se entrega como un spawner genérico. |
 
 Los encantamientos solo se aplican a los tipos de objetos indicados. No se pueden colocar, por ejemplo, Velocidad en un casco o Túnel en una espada.
 
@@ -65,6 +66,7 @@ Nombres disponibles:
 - `blindness`
 - `double_strike`
 - `vampire`
+- `spawner_touch` (alias: `toque_de_seda`)
 
 También se aceptan los nombres en español indicados en la configuración y sus alias.
 
@@ -73,6 +75,7 @@ Ejemplos:
 ```text
 /eenchant add speed 2
 /eenchant add tunnel 3
+/eenchant add spawner_touch 1
 /eenchant book Bruno vampire 1
 /eenchant give Bruno confusing_arrows 2
 ```
@@ -124,6 +127,10 @@ El archivo se encuentra en `plugins/ExcellentEnchantsNK/config.yml`.
 ### Vampiro
 
 `vampire.heal-fraction` determina qué fracción del daño causado se recupera como salud. El valor predeterminado es 0.25 (25%).
+
+### Toque de Seda
+
+`spawner_touch` se aplica a picos y permite romper spawners para obtener un bloque de spawner. Su nivel máximo predeterminado es I. El bloque recuperado es genérico: no conserva el tipo de criatura configurado en el spawner original.
 
 ### Mensajes
 
